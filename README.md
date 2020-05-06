@@ -1,4 +1,7 @@
 # educated-linux-shell-programning-newbie
+- site : http://www.codexpert.org/    문제 풀기 site
+- id : LGM20021084
+- passwd : 1~6
 
 # 사용자 및 그룹 관리
 - sudo, su [-], id, sudo useradd, sudo passwd, sudo userdel, sudo groupadd, sudo groupdel
@@ -27,15 +30,57 @@
 - set -x   , set +x : for debugging
 
 ## 변수, 인용부호, 단어 분리, Globbing
-- $var=value
-- ${val}  $val
+- var=value
+- ${var}  $var
 - $# : arguments count
 - $0,1,2  : command and arguments
 - $$ : pid
 - $? : return value of old(previous) process(0 : success)
 - " " : interpret \ $ ` only
-- ' ' : no imterpret
-- ` ` : execution
+- ' ' : no interpret
+- \` \` : execution
+- escape
+    - ```echo hello     world  -> hello world (only 1 space)```
+    - ```echo hello\ \ \ \ \ world  -> hello     world (5 space)```
+    - echo -e "\x41"  -> hexdecimal : escape application
+- quote
+    - dir="my folder"
+    - mkdir $dir   -> create 2 directory
+    - mkdir "$dir"  -> directory name is "my folder"
+- globbing : * , ? , [ ] 등의 glob 문자가 해석되는 것을 의미 (해석 원하지 않음)
+    - A="date: *"
+    - echo $A  -> * 이 directory안의 모든 파일이 나옴
+    - echo "$A"  -> date: *
+- `\`date +%y%m%d\``
+
+## 환경변수, 지역변수, source 명령
+- set : 지역 변수 
+- env : 환경변수
+    - HOME , PATH , USER , HOSTNAME , PS1 , PWD , RANDOM , UDI , PPID
+- export
+    - export name=linux  (환경변수)
+    - course="expert" (지역변수)
+    - name="programming"   (환경변수)
+        - 한번 환경변수 만들면 그대로 사용된다. export를 한번만 하면 된다. 
+- unset
+- source exe.sh  : 같은 shell에서 수행됨
+
+## 변수타입, 읽기전용, 배열 속성
+- let
+    - var=5; echo $var; let var++; echo $var
+- declare OPTION(s) NAME-value  : 변수에 속성 부여
+    - -p  : 변수의 속성과 값을 출력
+    - -i : 정수형 데이터만 저장할수 있도록 속성 부여
+    - -r : read only
+    - -a : 배열 속성 부여
+    - declare -i ivar="123" -> 123
+    - declare -i ivar=abc -> 0
+- readonly 
+    - readonly rovar="constant"
+    - rovar="string" -> readonly로 알려줌
+- array
+    - avar1=("data0" "1" "data2")
+    - echo ${avar1[*]}
+    - unset avar1[1]
+    - declare -p avar1 -> [0] [2] 만 나옴
 - 
-
-
