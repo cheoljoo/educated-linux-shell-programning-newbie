@@ -293,7 +293,25 @@ $ sed "$sedvar" /etc/passwd
 
 ### awk
 - 원본은 손상되지 않으며 텍스트 형태로 되어 있는 입력 데이터를 레코드와 필드 별로 처리해 출력
-- /패턴/ { 동작 }     $필드번호
+- awk '/패턴/ { 동작 }'    $필드번호
 - ps -ef | awk '/kworker/ { print $8 " is owned by " $1 }'
 - awk는 스크립트 언어로 다양한 특수 변수와 연산자  , 제어문 , 함수 등을 가지고 있다.
-    -  
+    -  ![예제](awk01.png)
+        - $5,$9 이면 , 은 output field separator로 공백이다.
+    - awk 조작 명령 및 BEGIN , END 패턴
+    - awk BEGIN에서 OFS , FS, ORS등의 구분자를 변경, 동작에서 변수를 사용하는 방법
+        - FS : field separator   ex) FS=":"
+        - OFS : output field separator
+        - ORS : output record separator   라인마다의 구분자
+        - NR : 처리하는 행의 수  (출력 라인수)
+    - 변수 정의 : 초기값은 BEGIN pattern에 넣어주면 된다.
+    - 바깥에서 사용한 변수 사용
+        - ls -l | awk '/'"$var"'/'
+        - 패턴 :   '"$var"'
+        - 동작 :   "'"$var"'"
+- awk -f awkfile
+- df | awk '/\'"$1"'$/ { print "filesystem:" $1 "\nblocks:" $2 "\nuse:" $5 }'
+- 펄더 안에 shell  패턴을 포함하는 모든 file들을 찾아라.
+```
+grep -Ern '^#! ?/bin/(bash|sh)$' $1 2>/etc/null | awk 'BEGIN {FS=":" } { print $1":"$2} ' | awk 'BEGIN {FS=":"} /:1$/{ print $1}' > $2
+```
