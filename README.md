@@ -99,6 +99,10 @@
     - ( 명령1; 명령2; )
     - keyword인 [ , { , ( 은 뒤에 공백을 넣어야 한다.
 - shell에서 alias 사용하기
+
+
+
+
 ```
 #!/bin/sh
 
@@ -225,4 +229,49 @@ echo "abcd"
 set +e
 ```
 
+
+## 정규표현식
+### grep 
+    - grep -rn 'a\{2,3\}u' /etc     -> 2번이상 3번 이하 반복
+    - [:alnum:]   -> 알파벳과 숫자
+    - [^[:alnum:]]   -> 알파벳과 숫자가 아닌 것
+    - [:  :]안에 alnum, alpha , blank , cntrl , digit , graph(보이는문자) , lower , upper , print(보이는 문자와 공백) , punct , space , xdigit
+        - grep '[[:alpha:]]port' /etc/services -> support
+        - grep '[^[:digit:]]port' /etc/services -> support
+- grep -E / egrep , awk : 확장 정규표현식
+    - sis|sys  -> or 
+    - y?  
+    - M+ 
+    - m{2,3} -> 2개 이상 3개 이하 
+    - grep -E '(s)(i|y)\1' /etc/services ->  첫번째 () 가 \1
+    - grep -E '(day)?time' /etc/services
+- grep -rn 'a' /etc
+    -r 은 /etc안의 모든 file들에 대해서 처리
+- grep -n '[cC]onf' !$   2>/dev/null
+    - !$ : 마지막 명령의 마지막 인수 
+    - !! 은 마지막 명령 전체
+- grep  '\<ab' /etc/services    -> 단어가 ab로 시작한 것을 찾아라
+- grep  'ab\>' /etc/services    -> 단어가 ab로 끝나는  것을 찾아라
+- phone number : grep -E '^01[016-9]-[0-9]{3,4}-[0-9]{4,4}$'
+
+### sed
+- 행단위 처리
+- -n : 편집된 것맟 처리 
+- -e : 다중 편집   -e '..'  -e '...' 
+- -r : extend regular expression
+- sed '2,4p'  : 2번에서 4번을 출력하라.   -> 2,4번 행을 한번더 출력하고 있다.
+- sed -n '2,4p'  : 2,4번만 출력 -n 은 기본이 입력을 출력하지 않음
+- sed -n '/root/p'  /etc/passwd    :  root 포함된 행 출력
+- sed -n '/^sys/p'  : sys로 시작되는 행 출력
+- sed -nr '/bash$/p'
+- sed '2,$d'   : 2번행에서 마지막 행까지  삭제
+- sed '/nologin/d' !$
+- sed -n '/nologin/dp' !$   : d와 p를 같이 사용할수는 없다. 
+- sed 's/root/myroot/'
+- sed 's/root/myroot/g'
+- sed -n 's/^sys/mysys/p' 
+- sed -n '/^root/s/bash/sh/p'   -> root로 시작하는 것을 찾아서 bash를 sh로 교체하라 
+- sed -n 's/^s[a-p]/my&/p'   -> &은 앞의 내용 그대로 ^s[a-p]
+- sed -n 'root/,/dev/p'   -> root에서 시작해서 dev 가 보이는 행에서 끝내라
+- sed -n '2,/dev/p' !$   -> 2번행부터 ㅣ작해서 dev가 나오면 멈춰라.
 
