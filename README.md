@@ -274,4 +274,26 @@ set +e
 - sed -n 's/^s[a-p]/my&/p'   -> &은 앞의 내용 그대로 ^s[a-p]
 - sed -n 'root/,/dev/p'   -> root에서 시작해서 dev 가 보이는 행에서 끝내라
 - sed -n '2,/dev/p' !$   -> 2번행부터 ㅣ작해서 dev가 나오면 멈춰라.
+```
+$ sedvar='2,4d
+s/^sys/s../
+s/bash$/..h/'
+$ sed "$sedvar" /etc/passwd
+```
+- sed -f input_file
+- help 에서 Options:하는 부분에서 공백행까지만 출력을 해라.
+    - help $1 | sed -n '/^ *Options:/,/^ *$/p' | sed '$d'
+- ls -l 을 개선해서 file의 종류도 표시하라
+    - ls -l $1 | sed -e '/^-/s/$/*/' -e '/^d/s/$/\//' -e '/^l/s/$/@/'
+- 핸드폰 검사의 유효성
+```
+    res=` echo $1 | sed -nr '/^01[016-9]( |-|:)[0-9]{3,4}\1[0-9]{4,4}$/s/( |-|:)/ /gp'`
+    echo ${res:-"wrong number"}
+```
 
+### awk
+- 원본은 손상되지 않으며 텍스트 형태로 되어 있는 입력 데이터를 레코드와 필드 별로 처리해 출력
+- /패턴/ { 동작 }     $필드번호
+- ps -ef | awk '/kworker/ { print $8 " is owned by " $1 }'
+- awk는 스크립트 언어로 다양한 특수 변수와 연산자  , 제어문 , 함수 등을 가지고 있다.
+    -  
