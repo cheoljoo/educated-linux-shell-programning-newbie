@@ -316,4 +316,62 @@ $ sed "$sedvar" /etc/passwd
 grep -Ern '^#! ?/bin/(bash|sh)$' $1 2>/etc/null | awk 'BEGIN {FS=":" } { print $1":"$2} ' | awk 'BEGIN {FS=":"} /:1$/{ print $1}' > $2
 ```
 
-## 
+## 조건문
+- test
+    - test 표현식
+    - [ 표현식 ]
+        - [ STR ]  or [ -n STR ]   : 문자열 STR이 NULL이 아니면 참
+        - [ -z STR ] : STR이 NULL이 아니면 참
+        - [ ! EXP ]  : EXP의 결과를 반전
+        - [ STR1 -a STR2 ] : STR1 , STR2 모두 NULL이 아니면 참
+        - [ STR1 -o STR2 ] : STR1 , STR2 하나라도 NULL이 아니면 참
+        - [ STR1 = STR2 ] : STR1 와  STR2 가 같으면  참
+        - [ STR1 != STR2 ] : STR1 와  STR2 가 다르면  참
+    - test 명령 확장  [[  ]]
+        - == , != , =~ , && , || 
+        - \* : 어떤 문자든 상관없이 0개 ~ 여러개
+            - [[ $var == 1[3-9]* ]]; echo $?  -> 13으로 시작하면됨
+        - && 와 ||을 결합한 예제 : 한 줄에 참인 경우 거짓인 경우 실행
+            - [ -d $dir ] && echo "$dir exists" || echo "$dir does not exist"
+    - [ $var -a "xxx" ]; echo $?
+    - 정수 비교
+        - [ INT1 -eq INT2 ]
+        - -eq , -ne , -ge , -gt , -le , -lt
+    - 변수는 "" 으로 묶어서 표현해야 실수가 없다.
+        - [ -n $xxx ]; echo $?   -> $xxx이 null이면 참이 나온다. 
+        - [ -n "$xxx"]; echo $?    : 정상 작동
+- let : 수식 연산을 수행하며 최종 연산 결과가 0이면 1을 아니면 0을 반환한다.
+    - let var=var+5   : 수식에 공백이 없으며 , $ 기호 불필요
+    - let "var = var +5"   : 수식에 공백이 있는 경우 ""으로 감싸야 한다.
+    - (( )) 연산은 let 명령과 동일하다.
+    - 연산자
+        - ++ , -- , 산술연산 , % , ** , 비교기호 , 비트 , 논리 , expr?exp1:exp2 , 대입
+- if
+    - if ..  ; then commands; else commands2; fi
+        - if cp $1 $2 >/dev/null 2>&1; then ... ; fi
+        - ps -C bash | sed '1d' | awk '{print $1}' 
+- random : 난수 만들기
+    - RANDOM 이라는 환경변수는 읽을때마다 0 ~ 32767 사이의 값을 반환
+- case
+    - case NAME in CASE1) command1;; CASE2) command2;;  ..;; *) ... ;;  esac
+```
+case $1 in
+[6-9][0-9] | 10)                    | 및 glob 문자 사용가능
+    GRADE="P"
+    ;;
+[0-9] | [1-5][0-9])
+    GRADE="F"
+    ;;
+esac
+```
+- read
+    - read ID
+    - read -t 3 ID     : 3초만 기다림. 3초후에 ID에는 값이 대입되지 않음
+- here
+    - here 다큐먼트는 어떤 프로그램에 자동으로 사용자 입력을 주고자 할때 사용한다.
+    - ![](here01.png)
+    - ![](here02.png)
+- echo -n "AAA"    -> return이 없음.
+
+## 반복문과 함수
+- 
