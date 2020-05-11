@@ -374,4 +374,37 @@ esac
 - echo -n "AAA"    -> return이 없음.
 
 ## 반복문과 함수
-- 
+- for
+    - for NAME in LIST; do commands; done
+    - ![](for01.png)
+    - example
+        - ![](for02.png)
+- while
+    - while control; do commands; done
+    - ![](while01.png)
+    - example
+        - ![](while02.png)
+        - ![](while03.png)
+        - ![](while04.png)
+- until  : 조건이 거짓인 동안 반복
+    - until control; do commands; done
+    - ![](until01.png)
+- select
+    - select NAME in LIST; do commands; done
+    - ![](select01.png)
+    - PS3="message:"     -> 입력 받기 전에 출력  (기본 : #?)
+    - example
+        - ![](select02.png)
+- break , continue
+    - break , continue는 for , while , until , select와 같은 반복문에서 사용
+    - ![](break01.png)
+- shift : 위치 패러미터들을 앞으로 1칸 이동시킨다.
+    - ![](shift01.png)
+- 암호 만들기 : 배열 생성하여 사용
+    - ![](passwd01.png)
+    - ![](passwd02.png)
+- 함수 (function)
+    - ![](function01.png)
+    - ![](function02.png)
+    - $# 인자의 개수
+    - $0 는 쉘스크립트의 이름 (함수 이름이 아님)
