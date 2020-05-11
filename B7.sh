@@ -20,7 +20,15 @@ SAFE=0
 is_safe()
 {
     # 여기에 코드를 작성한다
-    res=`echo "$1" | grep을 이용한 유효성검사식 작성 `
+    len=${#1}
+    if [ $len -lt 8 ]
+    then
+        SAFE=0
+    else
+        echo $1 | grep '[0-9]' | grep '[~!@#$%^&*]' | grep '[A-Z]' > /dev/null 2>&1
+        [ $? -eq 0 ] && SAFE=1 || SAFE=0
+    fi
+    #res=`echo "$1" | grep을 이용한 유효성검사식 작성 `
     # res의 결과를 사용하여 길이 검사를 하여 8자 이상이면 SAFE=1 을 수행하도록 한다
 }
 

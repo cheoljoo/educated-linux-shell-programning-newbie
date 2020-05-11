@@ -315,3 +315,5 @@ $ sed "$sedvar" /etc/passwd
 ```
 grep -Ern '^#! ?/bin/(bash|sh)$' $1 2>/etc/null | awk 'BEGIN {FS=":" } { print $1":"$2} ' | awk 'BEGIN {FS=":"} /:1$/{ print $1}' > $2
 ```
+
+## 
